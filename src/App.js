@@ -1,66 +1,127 @@
-import React, { useState, useEffect } from "react";
-import "./styles.css"; // Import the CSS file
+import React, { useState } from "react";
+import styled from "styled-components";
 
-function App() {
+const Container = styled.div`
+  background-color: #1c1c1c;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+`;
+
+const TaskHeading = styled.h2`
+  color: #fff;
+  font-size: 18px;
+  margin-bottom: 10px;
+`;
+
+const TaskList = styled.ul`
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+`;
+
+const TaskItem = styled.li`
+  background-color: #2c2c2c;
+  color: #fff;
+  padding: 10px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const TaskDescription = styled.span`
+  text-decoration: ${({ completed }) => (completed ? "line-through" : "none")};
+`;
+
+const CompleteButton = styled.button`
+  background-color: ${({ completed }) => (completed ? "#ccc" : "#3f51b5")};
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+  margin-right: 5px;
+`;
+
+const IncompleteButton = styled.button`
+  background-color: #f44336;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+`;
+
+const NewTaskInput = styled.input`
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  margin-top: 10px;
+`;
+
+const TaskApp = () => {
   const [tasks, setTasks] = useState([
-    { title: "Task 3", completed: true },
-    { title: "Hangout with arch", completed: false },
-    { title: "Hangt with merd", completed: false },
-    { title: "Graesome Pless", completed: true },
-    { title: "Do you", completed: false },
+    { id: 1, description: "Grab some Pizza", completed: false },
+    { id: 2, description: "Do your workout", completed: false },
+    { id: 3, description: "Hangout with friends", completed: false },
   ]);
-  const [pendingTasks, setPendingTasks] = useState(0);
-  const [newTask, setNewTask] = useState(""); // State for new task title
 
-  useEffect(() => {
-    const completedTasks = tasks.filter((task) => task.completed === true);
-    setPendingTasks(tasks.length - completedTasks.length);
-  }, [tasks]);
-
-  const addTask = () => {
-    if (newTask) {
-      setTasks([...tasks, { title: newTask, completed: false }]);
-      setNewTask("");
-    }
+  const toggleTaskCompletion = (taskId) => {
+    setTasks(
+      tasks.map((task) =>
+        task.id === taskId ? { ...task, completed: !task.completed } : task
+      )
+    );
   };
 
-  const toggleTask = (index) => {
-    const newTasks = [...tasks];
-    newTasks[index].completed = !newTasks[index].completed;
-    setTasks(newTasks);
+  const addNewTask = (description) => {
+    setTasks([
+      ...tasks,
+      { id: tasks.length + 1, description, completed: false },
+    ]);
   };
 
   return (
-    <div className="App">
-      <h1>To Do List</h1>
-      <div className="task-controls">
-        <span>Pending tasks ({pendingTasks})</span>
-        <input
-          type="text"
-          value={newTask}
-          onChange={(e) => setNewTask(e.target.value)}
-          placeholder="Add a new task"
-          className="new-task-input"
-        />
-        <button onClick={addTask} className="add-task-button">
-          Add Task
-        </button>
-      </div>
-      <ul className="task-list">
-        {tasks.map((task, index) => (
-          <li key={index} className={task.completed ? "completed" : ""}>
-            <input
-              type="checkbox"
-              checked={task.completed}
-              onChange={() => toggleTask(index)}
-              className="task-checkbox"
-            />
-            <span className="task-title">{task.title}</span>
-          </li>
+    <Container>
+      <TaskHeading>
+        Pending tasks ({tasks.filter((task) => !task.completed).length})
+      </TaskHeading>
+      <TaskList>
+        {tasks.map((task) => (
+          <TaskItem key={task.id}>
+            <TaskDescription completed={task.completed}>
+              {task.description}
+            </TaskDescription>
+            <div>
+              <CompleteButton
+                completed={task.completed}
+                onClick={() => toggleTaskCompletion(task.id)}
+              >
+                {task.completed ? "Incomplete" : "Complete"}
+              </CompleteButton>
+              {task.completed && (
+                <IncompleteButton onClick={() => toggleTaskCompletion(task.id)}>
+                  X
+                </IncompleteButton>
+              )}
+            </div>
+          </TaskItem>
         ))}
-      </ul>
-    </div>
+      </TaskList>
+      <NewTaskInput
+        type="text"
+        placeholder="Add a new task"
+        onKeyPress={(e) => {
+          if (e.key === "Enter") {
+            addNewTask(e.target.value);
+            e.target.value = "";
+          }
+        }}
+      />
+    </Container>
   );
-}
+};
 
-export default App;
+export default TaskApp;
