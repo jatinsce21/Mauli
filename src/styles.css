@@ -1,0 +1,68 @@
+/* styles.css */
+.App {
+    font-family: sans-serif;
+    margin: 0 auto;
+    width: 600px; /* Adjust width as needed */
+    padding: 20px;
+  }
+  
+  h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333; /* Adjust heading color as needed */
+    font-size: 24px; /* Adjust heading size as needed */
+  }
+  
+  .task-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  
+  .task-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .task-list li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #f5f5f5; /* Adjust background color as needed */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Optional subtle shadow */
+  }
+  
+  .task-list li.completed {
+    background-color: #ddd; /* Adjust completed task background color as needed */
+  }
+  
+  .task-checkbox {
+    margin-right: 10px;
+  }
+  
+  .task-title {
+    flex-grow: 1;
+    color: #333; /* Adjust task title color as needed */
+  }
+  
+  .new-task-input {
+    padding: 5px 10px;
+    border: 1px solid #ccc; /* Adjust input border as needed */
+    border-radius: 3px; /* Adjust input border radius as needed */
+    font-size: 16px; /* Adjust input font size as needed */
+  }
+  
+  .add-task-button {
+    padding: 8px 15px; /* Adjust button padding as needed */
+    background-color: #4CAF50; /* Adjust button background color as needed */
+    color: white; /* Adjust button text color as needed */
+    border: none;
+    border-radius: 3px; /* Adjust button border radius as needed */
+    cursor: pointer;
+  }
+  
